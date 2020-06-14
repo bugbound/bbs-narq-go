@@ -14,8 +14,37 @@ import (
 func main() {
     s := bufio.NewScanner(os.Stdin)
     for s.Scan() {
-        log.Println("line", s.Text())
+        var linetext = s.Text()
+        log.Println("line", linetext)
+        adddomain(linetext)
     }
+}
+
+func adddomain(domain string) {
+    url := "http://bbsstore-service:7002/api/dns_store"
+    var jsonStrStart = []byte(`{"domain":"`)
+    var jsonStrEnd = []byte(`"}`)
+    var part1 = append(jsonStrStart, domain...)
+    var completeValue = append(part1, jsonStrEnd...)
+    req, err := http.NewRequest("POST", url, bytes.NewBuffer(completeValue))
+    req.Header.Set("Content-Type", "application/json")
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    if err != nil {
+        panic(err)
+    }
+    defer resp.Body.Close()
+
+    fmt.Println("response Status:", resp.Status)
+    //fmt.Println("response Headers:", resp.Header)
+    body, _ := ioutil.ReadAll(resp.Body)
+    fmt.Println("response Body:", string(body))
+    
+}
+
+func plusPlus(a, b, c int) int {
+    return a + b + c
 }
 
 func mainOLD() {
