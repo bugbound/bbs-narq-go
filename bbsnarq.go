@@ -5,7 +5,6 @@ import (
     "os"
     "net/http"
     "bytes"
-    "ioutil"
 )
 
 func main() {
