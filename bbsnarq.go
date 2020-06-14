@@ -27,8 +27,11 @@ func main() {
 		
         fmt.Printf("stdin = %s\n", stdin)
         url := "http://bbsstore-service:7002/api/dns_store"
-        var jsonStr = []byte(`{"domain":"`+stdin+`"}`)
-        req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
+        var jsonStrStart = []byte(`{"domain":"`)
+        var jsonStrEnd = []byte(`"}`)
+        part1 = append(jsonStrStart, stdin...)
+        completeValue = append(part1, jsonStrEnd...)
+        req, err := http.NewRequest("POST", url, bytes.NewBuffer(completeValue))
         req.Header.Set("X-Custom-Header", "myvalue")
         req.Header.Set("Content-Type", "application/json")
 
