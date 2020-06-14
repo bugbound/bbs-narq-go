@@ -43,6 +43,8 @@ func main() {
         fmt.Println("response Body:", string(body))
 	} else {
 		fmt.Println("send data via pipe")
+    }
+}
 
 func mainOLD() {
     url := "http://bbsstore-service:7002/api/dns_store"
